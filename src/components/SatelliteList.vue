@@ -74,15 +74,12 @@ defineEmits(["next-page"]);
 
 
   .list-button {
-    @include button;
+    @include button1;
     @include box-shadow;
     
-    background-color: $action-background;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
-    /* min-width: 170px; */
-    /* text-align: center; */
     display: flex;
     align-items: center;
     justify-content: space-between;

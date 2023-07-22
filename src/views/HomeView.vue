@@ -14,8 +14,8 @@ interface QueryInterface {
 }
 
 const QUERY = gql`
-query Satellites ($limit: Int!, $offset: Int!)  {
-  getSatellites (limit: $limit, offset: $offset) {
+query Satellites ($limit: Int, $offset: Int, $nameOrId: String)  {
+  getSatellites (limit: $limit, offset: $offset, nameOrId: $nameOrId) {
    total,
    totalPages
     satellites {
@@ -37,12 +37,14 @@ interface StateInterface {
   limit: number;
   offset: number;
   currentPage: number;
+  nameOrId: string;
 }
 
 const state = ref<StateInterface>({
   limit: 10,
   offset: 0,
-  currentPage: 1
+  currentPage: 1,
+  nameOrId: '',
 })
 
 const { result, loading, fetchMore, error, onResult } = useQuery<QueryInterface>(QUERY, state)
@@ -89,19 +91,41 @@ const onClickGoToPreviousPage = () => {
   });
 };
 
+const onClickSearchSatellite = (payload: string) => {
+  state.value.nameOrId = payload;
+  state.value.limit = 10;
+  state.value.offset = 0;
+  state.value.currentPage = 1;
+
+  fetchMore({
+    variables: {
+      offset: state.value.offset,
+      limit: state.value.limit,
+      nameOrId: state.value.nameOrId
+    },
+
+    updateQuery: (previousResult, { fetchMoreResult }) => {
+      if (!fetchMoreResult) return previousResult
+
+      return fetchMoreResult
+    },
+  });
+}
+
+
 </script>
 
 <template>
   <main>
     <div> 
-      <SatelliteSearch />
+      <SatelliteSearch @search-satellite="onClickSearchSatellite"  />
 
       <div v-if="loading" class="loading-container">
         <CustomLoader />
       </div>
 
       <div v-else class="list-view">
-        <SatelliteList :payload="result?.getSatellites!" @next-page="onClickGoToNextPage" @prev-page="onClickGoToPreviousPage" :current-page="state.currentPage" :limit="state.limit"  />
+        <SatelliteList :payload="result?.getSatellites!" @next-page="onClickGoToNextPage" @prev-page="onClickGoToPreviousPage" :current-page="state.currentPage" :limit="state.limit" />
       </div>
     </div>
   </main>

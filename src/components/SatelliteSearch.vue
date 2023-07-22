@@ -1,6 +1,40 @@
         
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+import { reactive } from 'vue';
+
+interface StateInterface {
+  input: string;
+  error: boolean;
+  errorMessage: string;
+}
+
+const state = reactive<StateInterface>({
+  input: '',
+  error: false,
+  errorMessage: '',
+});
+
+
+const emit = defineEmits(['search-satellite']);
+
+const handleClickSearchSatellite = () => {
+  if (state.input.trim().length === 0) {
+    state.errorMessage = 'Please enter a valid search term!';
+    state.input = '';
+    
+    return;
+  } else {
+    state.errorMessage = '';
+  }
+
+  emit('search-satellite', state.input.trim().toLowerCase());
+}
+
+const handleClickClearFilters = () => {
+  location.reload();
+}
+
 </script>
 
 <template>
@@ -10,12 +44,20 @@ import { Icon } from '@iconify/vue';
           <p class="info">Satellite Finder</p>
 
           <div class="input-container">
-            <button class="button">
-                <Icon icon="ph:magnifying-glass-bold" width="22" />
+            
+            <input class="search-input" v-model="state.input" />
+
+            <button class="button button1" @click="handleClickSearchSatellite">
+                <Icon icon="ph:magnifying-glass-fill" color="#fff" width="30" />
             </button>
 
-            <input class="search-input"  />
+
+            <button class="button button2" @click="handleClickClearFilters">
+                <Icon icon="ph:backspace-fill" color="#fff" width="30" />
+            </button>
           </div>
+
+          <p v-if="state.errorMessage.length !== 0" class="error-message">{{ state.errorMessage }}</p>
         </div>
     </div>
   </div>
@@ -33,7 +75,7 @@ import { Icon } from '@iconify/vue';
 .card {
   @include background1;
 
-  padding: 15px;
+  padding: 15px 20px;
   border-radius: 10px;
 }
 
@@ -49,18 +91,23 @@ import { Icon } from '@iconify/vue';
 }
 
 .button {
-  @include background1;
+  @include display-center;
+  @include box-shadow;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 10px;
+  margin-right: 20px;
   border-radius: 5px;
-  cursor: pointer;
 
-  &:hover {
-      background: rgba( 236, 240, 241, 0.2);
+  &:last-of-type {
+    margin-right: 0;
   }
+}
+
+.button1 {
+  @include button1;
+}
+.button2 {
+  @include button;
 }
 
 .search-input {
@@ -68,9 +115,17 @@ import { Icon } from '@iconify/vue';
 
   width: 100%;
   padding: 10px;
-  margin-left: 20px;
   font-family: 'Grandis Bold';
   border-radius: 5px;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.error-message {
+  font-family: 'Grandis Bold';
+  /* color: $action-background; */
+  margin-top: 15px;
+  text-align: end;
 }
 
 @media screen and (orientation: portrait) and (max-width: 1000px) {

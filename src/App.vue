@@ -72,7 +72,7 @@ import SatelliteSearch from './components/SatelliteSearch.vue';
 
 .circle1 {
   top: 5%;
-  left: 40%;
+  left: 35%;
   transform: translate(-10%, -10%);
 }
 
