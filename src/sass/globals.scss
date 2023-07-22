@@ -1,0 +1,110 @@
+* {
+  font-family: 'Grandis Light', sans-serif;
+}
+
+html {
+  //   font-size: 3em;
+  font-size: inherit;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  width: 100%;
+  // color: white;
+
+  background: rgb(142, 68, 173);
+  background: linear-gradient(
+    180deg,
+    rgba(142, 68, 173, 1) 0%,
+    rgba(44, 62, 80, 1) 39%,
+    rgba(0, 0, 0, 1) 100%
+  );
+
+  // background: url('../assets/nebula-unsplash.jpg');
+  // background-size: cover;
+}
+
+/* Create the stars using pseudo-elements */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+
+  //   background-image: url('path/to/star-image.png'); /* Replace with the actual star image */
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Add animation for twinkling effect */
+@keyframes twinkling {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Apply animation to pseudo-element */
+body::before {
+  animation: twinkling 5s infinite;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:focus {
+  outline: none;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+input,
+textarea {
+  border: none;
+  outline: none;
+  background-color: inherit;
+}
+
+input:disabled,
+textarea:disabled {
+  background-color: inherit;
+  background: inherit;
+}
+
+button {
+  all: unset;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+h1 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}

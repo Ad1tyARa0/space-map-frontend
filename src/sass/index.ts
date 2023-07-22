@@ -1,0 +1,5 @@
+import './normalize.css'
+import './fonts.scss'
+import './globals.scss'
+import './colors.scss'
+import './variables.scss'
