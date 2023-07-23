@@ -1,4 +1,4 @@
-# Satellite Finder.
+# Space Navigator
 
     ## Prerequisites
         - node 16 or higher

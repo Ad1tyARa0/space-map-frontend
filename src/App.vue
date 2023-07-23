@@ -5,7 +5,7 @@ import {  RouterView } from 'vue-router';
 
 <template>
   <header class="header">
-    <h1 class="header-title">Satellite Finder</h1>
+    <h1 class="header-title">Space Navigator</h1>
     <div class="circle1"></div>
     <div class="circle2"></div>
     <div class="circle3"></div>

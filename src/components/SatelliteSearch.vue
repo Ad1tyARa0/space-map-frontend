@@ -67,7 +67,7 @@ const handleChangeObjectType = (payload: string) => {
   <div class="root">
     <div class="card">
         <div>
-          <p class="info">Satellite Finder</p>
+          <p class="info">Space Navigator</p>
 
           <div class="input-container">
             <button class="button button1" @click="handleClickSearchSatellite">
