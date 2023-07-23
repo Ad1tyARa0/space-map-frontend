@@ -66,9 +66,6 @@ defineProps<{
 }
 
 .image {
-  /* background-size: cover; */
-  /* max-height: 300px; */
-  /* object-fit: cover; */
   width: 100%;
   grid-area: image;
   margin: 0 auto 10px auto;
@@ -104,7 +101,6 @@ defineProps<{
 }
 .orbit-code {
   grid-area: orbit-code;
-  margin-bottom: 5px;
 }
 
 .country-code {

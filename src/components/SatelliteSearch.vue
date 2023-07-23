@@ -1,27 +1,15 @@
         
 <script setup lang="ts">
-import { Icon } from '@iconify/vue';
 import { reactive } from 'vue';
+import { Icon } from '@iconify/vue';
+
+// Components.
 import CustomDropdown from '../common/CustomDropdown.vue';
 
+// Constants.
 import { COUNTRY_CODES } from '../constants/country-codes';
 import { ORBIT_CODES } from '../constants/orbit-code';
 import { OBJECT_TYPE } from '@/constants/object-type';
-import { ModalsContainer, useModal } from 'vue-final-modal'
-import CustomModal from '../common/CustomModal.vue';
-
-const { open, close } = useModal({
-  component: CustomModal,
-  attrs: {
-    title: 'Apply Filter',
-    onConfirm() {
-      close()
-    },
-  },
-  slots: {
-    default: '<p>UseModal: The content of the modal</p>',
-  },
-})
 
 const props = defineProps<{
   nameOrId: string;
@@ -73,7 +61,6 @@ const handleChangeOrbitCodes = (payload: string) => {
 const handleChangeObjectType = (payload: string) => {
   emit('change-object-type', payload)
 }
-
 </script>
 
 <template>
@@ -89,17 +76,9 @@ const handleChangeObjectType = (payload: string) => {
             
             <input class="search-input" v-model="state.input" placeholder="Enter Search Term OR Norad Cat ID"/>
 
-
-            <button class="button button1 button-hidden">
-              <VButton @click="() => open()" class="">
-                <Icon icon="ph:funnel-fill" color="#fff" width="20" />
-              </VButton>
-            </button>
-
             <button class="button button2" @click="handleClickClearFilters">
                 <Icon icon="ph:backspace-fill" color="#fff" width="20" />
             </button>
-
           </div>
 
           
@@ -111,21 +90,10 @@ const handleChangeObjectType = (payload: string) => {
             <CustomDropdown class="dropdown" :options="OBJECT_TYPE" dropdown-label="Object Type" dropdown-value="object-type" :selected-option="objectType" @set-value="handleChangeObjectType" />
           </div>
 
-
           <p v-if="state.errorMessage.length !== 0" class="error-message">{{ state.errorMessage }}</p>
-
         </div>
       </div>
     </div>
-    <ModalsContainer>
-      <div class="dropdown-container">
-            <CustomDropdown class="dropdown" :options="COUNTRY_CODES" dropdown-label="Country Code" dropdown-value="country-code" :selected-option="countryCode" @set-value="handleChangeCountryCodes" />
-            
-            <CustomDropdown class="dropdown" :options="ORBIT_CODES" dropdown-label="Orbit Code" dropdown-value="orbit-code" :selected-option="orbitCode" @set-value="handleChangeOrbitCodes" />
-            
-            <CustomDropdown class="dropdown" :options="OBJECT_TYPE" dropdown-label="Object Type" dropdown-value="object-type" :selected-option="objectType" @set-value="handleChangeObjectType" />
-          </div>
-    </ModalsContainer>
 </template>
 
 <style lang="scss" scoped>
@@ -208,24 +176,24 @@ const handleChangeObjectType = (payload: string) => {
 @media screen and (orientation: portrait) and (max-width: 1000px) {
   .root {
     display: block;
-    margin: 0 20px;
+    margin: 0 10px;
     /* display: none; */
   }
-  .dropdown-container {
-    display: none;  
-  }
-
   .button-hidden { 
     display: flex; 
   }
 
+  .dropdown {
+    flex: 1;
+  }
+
+  .dropdown-container {
+    display: flex;
+    padding: 5px 0;
+  }
 }
 
-@media screen and (orientation: portrait) and (max-width: 700px) {
-  .root {
-    /* background-color: red; */
-  }
-  
+@media screen and (orientation: portrait) and (max-width: 700px) {  
   .card {
     padding: 5px 15px;
   }
@@ -243,11 +211,6 @@ const handleChangeObjectType = (payload: string) => {
   .info {
     display: none;  
   }
-/* 
-  .button-hidden {
-    display: flex;
-  } */
- 
 }
 
 

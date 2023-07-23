@@ -84,4 +84,10 @@ defineEmits(['set-value'])
   background-color: $background1;
   color: white;
 }
+
+@media screen and (orientation: portrait) and (max-width: 1000px) {  
+  .label {
+    display: none;
+  }
+}
 </style>

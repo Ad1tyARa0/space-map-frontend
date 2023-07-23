@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import CustomDropdown from '@/common/CustomDropdown.vue';
-import type { SatellitePaginatedType } from '../utils/types/satellites';
-import SatelliteItem from './SatelliteItem.vue';
 import { Icon } from '@iconify/vue';
+
+// Components.
+import SatelliteItem from './SatelliteItem.vue';
+import CustomDropdown from '@/common/CustomDropdown.vue';
+
+// Types.
+import type { SatellitePaginatedType } from '../utils/types/satellites';
+
 defineProps<{
   payload: SatellitePaginatedType;
   currentPage: number;
@@ -19,7 +24,7 @@ const handleChangeNumberOfRows = (payload: string) => {
 
 <template>
   <div class="root">
-    <custom-scrollbar :style="{ height: '70vh' }" class="scrollbar">
+    <custom-scrollbar :auto-hide="true" :style="{ height: '70vh' }" class="scrollbar">
       <div class="list-container">
         <SatelliteItem v-for="(satellite, index) in payload.satellites" :satellite="satellite" :key="index" />
       </div>

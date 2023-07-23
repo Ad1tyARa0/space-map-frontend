@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {  RouterView } from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
-import SatelliteSearch from './components/SatelliteSearch.vue';
+import {  RouterView } from 'vue-router';
+import { ModalsContainer } from 'vue-final-modal'
+
 </script>
 
 <template>
@@ -16,6 +16,8 @@ import SatelliteSearch from './components/SatelliteSearch.vue';
 
 
   <RouterView />
+
+  <ModalsContainer />
 </template>
 
 <style scoped>
