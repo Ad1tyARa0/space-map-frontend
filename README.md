@@ -1,5 +1,8 @@
 # Satellite Finder.
 
+    ## Prerequisites
+        - node 16 or higher
+        - this project uses node v18.12.1
 
     ## Steps to run the application on local machine
         - Download the code and install dependencies.
