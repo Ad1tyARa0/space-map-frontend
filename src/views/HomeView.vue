@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { SatellitePaginatedType } from '@/types/satellites';
+import type { SatellitePaginatedType } from '../utils/types/satellites';
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import SatelliteSearch from '../components/SatelliteSearch.vue';
 import SatelliteList from '../components/SatelliteList.vue';
 import { ref } from 'vue'
-import { Icon } from '@iconify/vue';
 import CustomLoader from '../common/CustomLoader.vue';
 
 interface QueryInterface {  
@@ -14,8 +13,8 @@ interface QueryInterface {
 }
 
 const QUERY = gql`
-query Satellites ($limit: Int, $offset: Int, $nameOrId: String)  {
-  getSatellites (limit: $limit, offset: $offset, nameOrId: $nameOrId) {
+query Satellites ($limit: Int!, $offset: Int!, $nameOrId: String, $countryCode: String, $orbitCode: String, $objectType: String)  {
+  getSatellites (limit: $limit, offset: $offset, nameOrId: $nameOrId, countryCode: $countryCode, orbitCode: $orbitCode, objectType: $objectType) {
    total,
    totalPages
     satellites {
@@ -38,6 +37,9 @@ interface StateInterface {
   offset: number;
   currentPage: number;
   nameOrId: string;
+  countryCode: string;
+  orbitCode: string;
+  objectType: string;
 }
 
 const state = ref<StateInterface>({
@@ -45,28 +47,18 @@ const state = ref<StateInterface>({
   offset: 0,
   currentPage: 1,
   nameOrId: '',
+  countryCode: '',
+  orbitCode: '',
+  objectType: '',
 })
 
-const { result, loading, fetchMore, error, onResult } = useQuery<QueryInterface>(QUERY, state)
+const { result, loading, error } = useQuery<QueryInterface>(QUERY, state)
 
 console.log(error);
 
 const onClickGoToNextPage = () => {
   state.value.offset = state.value.offset + 1;
   state.value.currentPage = state.value.offset + 1;
-
-  fetchMore({
-    variables: {
-      offset: state.value.offset,
-      limit: state.value.limit,
-    },
-
-    updateQuery: (previousResult, { fetchMoreResult }) => {
-      if (!fetchMoreResult) return previousResult
-
-      return fetchMoreResult
-    },
-  });
 };
 
 const onClickGoToPreviousPage = () => {  
@@ -76,41 +68,28 @@ const onClickGoToPreviousPage = () => {
 
   state.value.currentPage = state.value.offset;
   state.value.offset = state.value.offset - 1;
-
-  fetchMore({
-    variables: {
-      offset: state.value.offset,
-      limit: state.value.limit,
-    },
-
-    updateQuery: (previousResult, { fetchMoreResult }) => {
-      if (!fetchMoreResult) return previousResult
-
-      return fetchMoreResult
-    },
-  });
 };
 
 const onClickSearchSatellite = (payload: string) => {
   state.value.nameOrId = payload;
-  state.value.limit = 10;
-  state.value.offset = 0;
-  state.value.currentPage = 1;
-
-  fetchMore({
-    variables: {
-      offset: state.value.offset,
-      limit: state.value.limit,
-      nameOrId: state.value.nameOrId
-    },
-
-    updateQuery: (previousResult, { fetchMoreResult }) => {
-      if (!fetchMoreResult) return previousResult
-
-      return fetchMoreResult
-    },
-  });
 }
+
+const onClickChangeRowsPerPage = (payload: string) => {
+  state.value.limit = Number(payload);
+}
+
+const onClickChangeCountryCodes = (payload: string) => {
+  state.value.countryCode = payload;
+}
+
+const onClickChangeOrbitCodes = (payload: string) => {
+  state.value.orbitCode = payload;
+}
+
+const onClickChangeObjectType = (payload: string) => {
+  state.value.objectType = payload;
+}
+
 
 
 </script>
@@ -118,14 +97,14 @@ const onClickSearchSatellite = (payload: string) => {
 <template>
   <main>
     <div> 
-      <SatelliteSearch @search-satellite="onClickSearchSatellite"  />
+      <SatelliteSearch @search-satellite="onClickSearchSatellite" :name-or-id="state.nameOrId" :country-code="state.countryCode" :object-type="state.objectType" :orbit-code="state.orbitCode" @change-country-code="onClickChangeCountryCodes" @change-orbit-code="onClickChangeOrbitCodes" @change-object-type="onClickChangeObjectType" />
 
       <div v-if="loading" class="loading-container">
         <CustomLoader />
       </div>
 
       <div v-else class="list-view">
-        <SatelliteList :payload="result?.getSatellites!" @next-page="onClickGoToNextPage" @prev-page="onClickGoToPreviousPage" :current-page="state.currentPage" :limit="state.limit" />
+        <SatelliteList :payload="result?.getSatellites!" @next-page="onClickGoToNextPage" @prev-page="onClickGoToPreviousPage" :current-page="state.currentPage" :limit="state.limit" @change-limit="onClickChangeRowsPerPage"  />
       </div>
     </div>
   </main>

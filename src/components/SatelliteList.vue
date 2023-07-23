@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { SatellitePaginatedType } from '@/types/satellites';
+import CustomDropdown from '@/common/CustomDropdown.vue';
+import type { SatellitePaginatedType } from '../utils/types/satellites';
 import SatelliteItem from './SatelliteItem.vue';
 import { Icon } from '@iconify/vue';
 defineProps<{
@@ -8,8 +9,11 @@ defineProps<{
   limit: number;
 }>()
 
+const emit = defineEmits(["next-page", "change-limit"]);
 
-defineEmits(["next-page"]);
+const handleChangeNumberOfRows = (payload: string) => {
+  emit('change-limit', payload)
+}
 
 </script>
 
@@ -22,8 +26,11 @@ defineEmits(["next-page"]);
     </custom-scrollbar>
     
     <div class="list-actions">
-      
-      <p class="total">({{ limit }} / {{  payload.total  }})</p>
+      <p class="total">
+        (<span class="total-text">
+          <CustomDropdown class="dropdown" dropdown-value="limit" :options="['10', '15', '20', '25', '30']" :selected-option="limit.toString()" :showNoneSelected="false" @set-value="handleChangeNumberOfRows" />
+        </span> / <span class="total-text"> {{ payload.total }} </span>)
+      </p>
       
       <p class="current-page">{{ currentPage }} / {{  payload.totalPages  }}</p>
       
@@ -105,15 +112,33 @@ defineEmits(["next-page"]);
     margin-right: 10px;
     text-align: start;
   }
+
+  .dropdown {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    width: min-content;
+    border: none;
+  }
+
+  .total-text {
+    margin: 0 5px;
+  }
   
   .total {
     /* font-family: 'Grandis Bold'; */
     flex: 1;
     color: white;
+    display: flex;
   }
 }
 
 
+@media screen and (orientation: landscape) and (max-width: 4000px) {
+  .list-container {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
 
 @media screen and (orientation: landscape) and (max-width: 2960px) {
   .list-container {

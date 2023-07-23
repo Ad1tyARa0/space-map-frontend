@@ -2,6 +2,18 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { reactive } from 'vue';
+import CustomDropdown from '../common/CustomDropdown.vue';
+
+import { COUNTRY_CODES } from '../constants/country-codes';
+import { ORBIT_CODES } from '../constants/orbit-code';
+import { OBJECT_TYPE } from '@/constants/object-type';
+
+const props = defineProps<{
+  nameOrId: string;
+  countryCode: string;
+  objectType: string;
+  orbitCode: string;
+}>();
 
 interface StateInterface {
   input: string;
@@ -10,13 +22,12 @@ interface StateInterface {
 }
 
 const state = reactive<StateInterface>({
-  input: '',
+  input: props.nameOrId,
   error: false,
   errorMessage: '',
 });
 
-
-const emit = defineEmits(['search-satellite']);
+const emit = defineEmits(['search-satellite', 'change-country-code', 'change-orbit-code', 'change-object-type']);
 
 const handleClickSearchSatellite = () => {
   if (state.input.trim().length === 0) {
@@ -35,6 +46,19 @@ const handleClickClearFilters = () => {
   location.reload();
 }
 
+
+const handleChangeCountryCodes = (payload: string) => {
+  emit('change-country-code', payload);
+}
+
+const handleChangeOrbitCodes = (payload: string) => {
+  emit('change-orbit-code', payload);
+}
+
+const handleChangeObjectType = (payload: string) => {
+  emit('change-object-type', payload)
+}
+
 </script>
 
 <template>
@@ -45,7 +69,7 @@ const handleClickClearFilters = () => {
 
           <div class="input-container">
             
-            <input class="search-input" v-model="state.input" />
+            <input class="search-input" v-model="state.input" placeholder="Enter Search Term / Norad Cat ID"/>
 
             <button class="button button1" @click="handleClickSearchSatellite">
                 <Icon icon="ph:magnifying-glass-fill" color="#fff" width="30" />
@@ -56,6 +80,16 @@ const handleClickClearFilters = () => {
                 <Icon icon="ph:backspace-fill" color="#fff" width="30" />
             </button>
           </div>
+
+          
+          <div class="dropdown-container">
+            <CustomDropdown :options="COUNTRY_CODES" dropdown-label="Country Code" dropdown-value="country-code" :selected-option="countryCode" @set-value="handleChangeCountryCodes" />
+            
+            <CustomDropdown :options="ORBIT_CODES" dropdown-label="Orbit Code" dropdown-value="orbit-code" :selected-option="orbitCode" @set-value="handleChangeOrbitCodes" />
+            
+            <CustomDropdown :options="OBJECT_TYPE" dropdown-label="Object Type" dropdown-value="object-type" :selected-option="objectType" @set-value="handleChangeObjectType" />
+          </div>
+
 
           <p v-if="state.errorMessage.length !== 0" class="error-message">{{ state.errorMessage }}</p>
         </div>
@@ -88,6 +122,7 @@ const handleClickClearFilters = () => {
 
 .input-container {
   display: flex;
+  margin-bottom: 20px;
 }
 
 .button {
@@ -119,6 +154,11 @@ const handleClickClearFilters = () => {
   border-radius: 5px;
   font-size: 20px;
   margin-right: 20px;
+
+  &::placeholder {
+    font-size: 14px;
+    color: rgba($color: #000000, $alpha: 0.4);
+  }
 }
 
 .error-message {
@@ -126,6 +166,10 @@ const handleClickClearFilters = () => {
   /* color: $action-background; */
   margin-top: 15px;
   text-align: end;
+}
+
+.dropdown-container {
+  display: flex;
 }
 
 @media screen and (orientation: portrait) and (max-width: 1000px) {

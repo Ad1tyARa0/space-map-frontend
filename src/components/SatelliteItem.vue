@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SatelliteType } from '@/types/satellites';
+import type { SatelliteType } from '../utils/types/satellites';
 import CustomField from '../common/CustomField.vue';
 
 defineProps<{
@@ -31,6 +31,10 @@ defineProps<{
       <CustomField label="Launch Date" :value="satellite.launchDate" />
     </div>
 
+    <div class="country-code">
+      <CustomField label="Country Code" :value="satellite.countryCode" />
+    </div>
+
     <div class="object-type">
       <CustomField label="Object Type" :value="satellite.objectType" />
     </div>
@@ -53,11 +57,11 @@ defineProps<{
   border-radius: 5px;
   display: grid;
   grid-template-areas: 
-  'name norad-cat-id'
+  'norad-cat-id name'
   'image image'
   'launch-date object-type'
-  'intl-des orbit-code'
-  'decay-date .'
+  'intl-des country-code'
+  'decay-date orbit-code'
   ;
 }
 
@@ -100,6 +104,11 @@ defineProps<{
 }
 .orbit-code {
   grid-area: orbit-code;
+  margin-bottom: 5px;
+}
+
+.country-code {
+  grid-area: country-code;
   margin-bottom: 5px;
 }
 
