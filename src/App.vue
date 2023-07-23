@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {  RouterView } from 'vue-router';
-import { ModalsContainer } from 'vue-final-modal'
 
 </script>
 
@@ -22,9 +21,7 @@ import { ModalsContainer } from 'vue-final-modal'
 
 <style scoped>
 .header {
-  /* padding: 15px; */
   user-select: none;
-  /* position: absolute; */
 
   .header-title {
     font-size: 3.4em;

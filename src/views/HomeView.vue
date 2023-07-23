@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import type { SatellitePaginatedType } from '../utils/types/satellites';
-import { useQuery } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
-import SatelliteSearch from '../components/SatelliteSearch.vue';
-import SatelliteList from '../components/SatelliteList.vue';
 import { ref } from 'vue'
+import gql from 'graphql-tag'
+import { useQuery } from '@vue/apollo-composable'
+
 import CustomLoader from '../common/CustomLoader.vue';
+import SatelliteList from '../components/SatelliteList.vue';
+import SatelliteSearch from '../components/SatelliteSearch.vue';
+
+// Types.
+import type { SatellitePaginatedType } from '../utils/types/satellites';
 
 interface QueryInterface {  
   getSatellites: SatellitePaginatedType;
@@ -90,8 +93,6 @@ const onClickChangeObjectType = (payload: string) => {
   state.value.objectType = payload;
 }
 
-
-
 </script>
 
 <template>
@@ -99,8 +100,12 @@ const onClickChangeObjectType = (payload: string) => {
     <div> 
       <SatelliteSearch @search-satellite="onClickSearchSatellite" :name-or-id="state.nameOrId" :country-code="state.countryCode" :object-type="state.objectType" :orbit-code="state.orbitCode" @change-country-code="onClickChangeCountryCodes" @change-orbit-code="onClickChangeOrbitCodes" @change-object-type="onClickChangeObjectType" />
 
-      <div v-if="loading" class="loading-container">
+      <div v-if="loading" class="container">
         <CustomLoader />
+      </div>
+
+      <div v-else-if="result?.getSatellites.satellites.length === 0" class="container">    
+        <h1 class="no-results">No Results to display</h1>
       </div>
 
       <div v-else class="list-view">
@@ -123,11 +128,15 @@ const onClickChangeObjectType = (payload: string) => {
   padding: 0 10px;
 }
 
-.loading-container {
-  position: absolute;
-  top: 50%;
-  left: 45%;
-  right: 45%;
+.container {
+  @include display-center;
+  
+  height: calc(100vh - 140px);
+}
+
+.no-results {
+  font-family: 'Grandis Bold';
+  color: white;
 }
 </style>
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 
-// Components.
+// Components.ww
 import SatelliteItem from './SatelliteItem.vue';
 import CustomDropdown from '@/common/CustomDropdown.vue';
 

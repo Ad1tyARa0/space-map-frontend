@@ -164,7 +164,6 @@ const handleChangeObjectType = (payload: string) => {
 }
 .error-message {
   font-family: 'Grandis Bold';
-  /* color: $action-background; */
   margin-top: 15px;
   text-align: end;
 }

@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import type { SatelliteType } from '../utils/types/satellites';
+// Components
 import CustomField from '../common/CustomField.vue';
+
+// Types
+import type { SatelliteType } from '../utils/types/satellites';
 
 defineProps<{
     satellite: SatelliteType;

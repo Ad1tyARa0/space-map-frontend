@@ -3,7 +3,6 @@
 }
 
 html {
-  //   font-size: 3em;
   font-size: inherit;
 }
 
@@ -13,8 +12,6 @@ body,
   font-size: 16px;
   height: 100%;
   width: 100%;
-  // color: white;
-
   background: rgb(142, 68, 173);
   background: linear-gradient(
     180deg,
@@ -22,12 +19,8 @@ body,
     rgba(44, 62, 80, 1) 39%,
     rgba(0, 0, 0, 1) 100%
   );
-
-  // background: url('../assets/nebula-unsplash.jpg');
-  // background-size: cover;
 }
 
-/* Create the stars using pseudo-elements */
 body::before {
   content: '';
   position: absolute;
@@ -36,31 +29,8 @@ body::before {
   width: 10px;
   height: 10px;
   background-color: white;
-
-  //   background-image: url('path/to/star-image.png'); /* Replace with the actual star image */
   pointer-events: none;
   z-index: -1;
-}
-
-/* Add animation for twinkling effect */
-@keyframes twinkling {
-  0% {
-    opacity: 0;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1);
-  }
-}
-
-/* Apply animation to pseudo-element */
-body::before {
-  animation: twinkling 5s infinite;
 }
 
 *,
