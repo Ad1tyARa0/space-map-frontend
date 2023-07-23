@@ -95,7 +95,7 @@ const onClickChangeObjectType = (payload: string) => {
 </script>
 
 <template>
-  <main>
+  <main class="main">
     <div> 
       <SatelliteSearch @search-satellite="onClickSearchSatellite" :name-or-id="state.nameOrId" :country-code="state.countryCode" :object-type="state.objectType" :orbit-code="state.orbitCode" @change-country-code="onClickChangeCountryCodes" @change-orbit-code="onClickChangeOrbitCodes" @change-object-type="onClickChangeObjectType" />
 
@@ -114,12 +114,13 @@ const onClickChangeObjectType = (payload: string) => {
 <style lang="scss" scoped>
 @import "src/sass/colors";
 @import "src/sass/variables";
-
-
+.main {
+  padding-top: 5px;
+}
 
 .list-view {
-  margin-top: 20px;
-  padding: 0 20px;
+  margin-top: 10px;
+  padding: 0 10px;
 }
 
 .loading-container {

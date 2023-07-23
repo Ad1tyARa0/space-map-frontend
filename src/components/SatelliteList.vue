@@ -28,7 +28,7 @@ const handleChangeNumberOfRows = (payload: string) => {
     <div class="list-actions">
       <p class="total">
         (<span class="total-text">
-          <CustomDropdown class="dropdown" dropdown-value="limit" :options="['10', '15', '20', '25', '30']" :selected-option="limit.toString()" :showNoneSelected="false" @set-value="handleChangeNumberOfRows" />
+          <CustomDropdown class="dropdown" dropdown-value="limit" :options="['10', '15', '20', '25', '30', '50', '100']" :selected-option="limit.toString()" :showNoneSelected="false" @set-value="handleChangeNumberOfRows" />
         </span> / <span class="total-text"> {{ payload.total }} </span>)
       </p>
       
@@ -61,7 +61,7 @@ const handleChangeNumberOfRows = (payload: string) => {
   @include background1;
 
   /* margin: 20px; */
-  padding: 15px;
+  padding: 10px;
   border-radius: 15px;
 }
 
@@ -161,6 +161,24 @@ const handleChangeNumberOfRows = (payload: string) => {
 @media screen and (orientation: landscape) and (max-width: 1450px) {
   .list-container {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (orientation: portrait) and (max-width: 700px) {
+  .current-page {
+    display: none;
+  }
+
+  .list-button {
+    font-size: 12px;
+    
+    &:first-of-type {
+      margin-left: 10px;
+    }
+    
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 }
 

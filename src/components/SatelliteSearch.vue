@@ -7,6 +7,21 @@ import CustomDropdown from '../common/CustomDropdown.vue';
 import { COUNTRY_CODES } from '../constants/country-codes';
 import { ORBIT_CODES } from '../constants/orbit-code';
 import { OBJECT_TYPE } from '@/constants/object-type';
+import { ModalsContainer, useModal } from 'vue-final-modal'
+import CustomModal from '../common/CustomModal.vue';
+
+const { open, close } = useModal({
+  component: CustomModal,
+  attrs: {
+    title: 'Apply Filter',
+    onConfirm() {
+      close()
+    },
+  },
+  slots: {
+    default: '<p>UseModal: The content of the modal</p>',
+  },
+})
 
 const props = defineProps<{
   nameOrId: string;
@@ -68,33 +83,49 @@ const handleChangeObjectType = (payload: string) => {
           <p class="info">Satellite Finder</p>
 
           <div class="input-container">
-            
-            <input class="search-input" v-model="state.input" placeholder="Enter Search Term / Norad Cat ID"/>
-
             <button class="button button1" @click="handleClickSearchSatellite">
-                <Icon icon="ph:magnifying-glass-fill" color="#fff" width="30" />
+                <Icon icon="ph:magnifying-glass-fill" color="#fff" width="20" />
             </button>
+            
+            <input class="search-input" v-model="state.input" placeholder="Enter Search Term OR Norad Cat ID"/>
 
+
+            <button class="button button1 button-hidden">
+              <VButton @click="() => open()" class="">
+                <Icon icon="ph:funnel-fill" color="#fff" width="20" />
+              </VButton>
+            </button>
 
             <button class="button button2" @click="handleClickClearFilters">
-                <Icon icon="ph:backspace-fill" color="#fff" width="30" />
+                <Icon icon="ph:backspace-fill" color="#fff" width="20" />
             </button>
+
           </div>
 
           
           <div class="dropdown-container">
-            <CustomDropdown :options="COUNTRY_CODES" dropdown-label="Country Code" dropdown-value="country-code" :selected-option="countryCode" @set-value="handleChangeCountryCodes" />
+            <CustomDropdown class="dropdown" :options="COUNTRY_CODES" dropdown-label="Country Code" dropdown-value="country-code" :selected-option="countryCode" @set-value="handleChangeCountryCodes" />
             
-            <CustomDropdown :options="ORBIT_CODES" dropdown-label="Orbit Code" dropdown-value="orbit-code" :selected-option="orbitCode" @set-value="handleChangeOrbitCodes" />
+            <CustomDropdown class="dropdown" :options="ORBIT_CODES" dropdown-label="Orbit Code" dropdown-value="orbit-code" :selected-option="orbitCode" @set-value="handleChangeOrbitCodes" />
             
-            <CustomDropdown :options="OBJECT_TYPE" dropdown-label="Object Type" dropdown-value="object-type" :selected-option="objectType" @set-value="handleChangeObjectType" />
+            <CustomDropdown class="dropdown" :options="OBJECT_TYPE" dropdown-label="Object Type" dropdown-value="object-type" :selected-option="objectType" @set-value="handleChangeObjectType" />
           </div>
 
 
           <p v-if="state.errorMessage.length !== 0" class="error-message">{{ state.errorMessage }}</p>
+
         </div>
+      </div>
     </div>
-  </div>
+    <ModalsContainer>
+      <div class="dropdown-container">
+            <CustomDropdown class="dropdown" :options="COUNTRY_CODES" dropdown-label="Country Code" dropdown-value="country-code" :selected-option="countryCode" @set-value="handleChangeCountryCodes" />
+            
+            <CustomDropdown class="dropdown" :options="ORBIT_CODES" dropdown-label="Orbit Code" dropdown-value="orbit-code" :selected-option="orbitCode" @set-value="handleChangeOrbitCodes" />
+            
+            <CustomDropdown class="dropdown" :options="OBJECT_TYPE" dropdown-label="Object Type" dropdown-value="object-type" :selected-option="objectType" @set-value="handleChangeObjectType" />
+          </div>
+    </ModalsContainer>
 </template>
 
 <style lang="scss" scoped>
@@ -109,7 +140,7 @@ const handleChangeObjectType = (payload: string) => {
 .card {
   @include background1;
 
-  padding: 15px 20px;
+  padding: 10px;
   border-radius: 10px;
 }
 
@@ -122,20 +153,24 @@ const handleChangeObjectType = (payload: string) => {
 
 .input-container {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .button {
   @include display-center;
   @include box-shadow;
 
-  padding: 10px;
-  margin-right: 20px;
+  padding: 5px 10px;
+  margin-right: 10px;
   border-radius: 5px;
 
   &:last-of-type {
     margin-right: 0;
   }
+}
+
+.button-hidden { 
+  display: none;
 }
 
 .button1 {
@@ -149,18 +184,16 @@ const handleChangeObjectType = (payload: string) => {
   @include background1;
 
   width: 100%;
-  padding: 10px;
+  padding: 5px 10px;
   font-family: 'Grandis Bold';
   border-radius: 5px;
-  font-size: 20px;
-  margin-right: 20px;
+  margin-right: 10px;
 
   &::placeholder {
     font-size: 14px;
     color: rgba($color: #000000, $alpha: 0.4);
   }
 }
-
 .error-message {
   font-family: 'Grandis Bold';
   /* color: $action-background; */
@@ -178,11 +211,44 @@ const handleChangeObjectType = (payload: string) => {
     margin: 0 20px;
     /* display: none; */
   }
+  .dropdown-container {
+    display: none;  
+  }
+
+  .button-hidden { 
+    display: flex; 
+  }
+
+}
+
+@media screen and (orientation: portrait) and (max-width: 700px) {
+  .root {
+    /* background-color: red; */
+  }
+  
+  .card {
+    padding: 5px 15px;
+  }
+
+  .info {
+    margin-bottom: 5px;
+  }
+
+  .input-container {
+    margin-bottom: 5px;
+  }
 }
 
 @media screen and (orientation: landscape) and (min-width: 750px) {
   .info {
     display: none;  
   }
+/* 
+  .button-hidden {
+    display: flex;
+  } */
+ 
 }
+
+
 </style>

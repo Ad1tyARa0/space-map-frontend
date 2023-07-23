@@ -43,9 +43,9 @@ defineEmits(['set-value'])
 
   display: flex;
   flex-direction: column;
-  padding: 10px 15px;
+  padding: 5px 10px;
   border-radius: 5px;
-  margin-right: 20px;
+  margin-right: 10px;
 
   &:last-of-type {
     margin-right: 0;

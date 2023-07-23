@@ -20,7 +20,7 @@ import SatelliteSearch from './components/SatelliteSearch.vue';
 
 <style scoped>
 .header {
-  padding: 15px;
+  /* padding: 15px; */
   user-select: none;
   /* position: absolute; */
 
