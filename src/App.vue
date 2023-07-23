@@ -16,7 +16,6 @@ import {  RouterView } from 'vue-router';
 
   <RouterView />
 
-  <ModalsContainer />
 </template>
 
 <style scoped>
